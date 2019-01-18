@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Week2.Views.InfoPage">
+    <!--<ContentPage.Padding>
+        <OnPlatform x:TypeArguments="Thickness">
+            <On Platform="iOS" Value="20, 40, 20, 20" />
+            <On Platform="Android, UWP" Value="20" />
+        </OnPlatform>
+    </ContentPage.Padding>
+
+    <StackLayout>
+        <Label Text="Welcome to Watership Down" FontAttributes="Bold" FontSize="22" 
+                 
+                HorizontalOptions="CenterAndExpand" />
+        -->
+    <!--<Image Source="xamarind_logo.png"></Image>-->
+    <!--<Entry x:Name="phoneNumberText" Text="1-855-XAMARIN" />
+        <Button Text="Translate" Clicked="OnTranslate" />
+        <Button x:Name="callButton" Text="Call" IsEnabled="false" Clicked="OnCall" />
+        <Button x:Name="callHistoryButton" Text="Call History" IsEnabled="False" Clicked="OnCallHistory" />-->
+    <!--
+    </StackLayout>-->
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <!--Page Level Resources: Compatibile with Xamarin Live Player -->
+            <Color x:Key="Primary">#2196F3</Color>
+            <Color x:Key="Accent">#96d1ff</Color>
+            <Color x:Key="LightTextColor">#999999</Color>
+
+
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <StackLayout BackgroundColor="{StaticResource Accent}" VerticalOptions="FillAndExpand" HorizontalOptions="Fill">
+            <StackLayout Orientation="Horizontal" HorizontalOptions="Center" VerticalOptions="Center">
+                <ContentView Padding="0,40,0,40" VerticalOptions="FillAndExpand">
+                </ContentView>
+            </StackLayout>
+        </StackLayout>
+        <ScrollView Grid.Row="1">
+            <StackLayout Orientation="Vertical" Padding="16,40,16,40" Spacing="10">
+                <Label FontSize="22">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <FormattedString.Spans>
+                                <Span Text="Linh's Rabbit App" FontAttributes="Bold" FontSize="22"/>
+                                <Span Text=" " />
+                            </FormattedString.Spans>
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+                <Image x:Name="Bunny" 
+               Source="bunny.jpg"/>
+                <Button Text="Character"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center"
+                           Clicked="CharacterPageButtonClick"/>
+                <Button Text="History/Score"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center"
+                           Clicked="ScorePageButtonClick"/>
+                <Button Text="Item"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center"
+                           Clicked="ItemsPageButtonClick"/>
+            </StackLayout>
+
+
+        </ScrollView>
+    </Grid>
+</ContentPage>
