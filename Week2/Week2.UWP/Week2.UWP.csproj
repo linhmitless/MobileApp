@@ -103,6 +103,11 @@
     </AppxManifest>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\Carrot.png" />
+    <Content Include="Assets\dropletfinal.png" />
+    <Content Include="Assets\Rope_icon.png" />
+    <Content Include="Assets\Tree_trunk_bark_boughs-512.png" />
+    <Content Include="Assets\weed2.png" />
     <Content Include="bunny.jpg" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LargeTile.scale-100.png" />

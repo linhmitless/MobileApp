@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Week2.iOS", "Week2\Week2.iO
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Week2.UWP", "Week2\Week2.UWP\Week2.UWP.csproj", "{287330C5-0D03-40FA-B393-C1BA124B9514}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Week2.MobileAppService", "Week2\Week2.MobileAppService\Week2.MobileAppService.csproj", "{E3DAFF1B-AFAF-461D-BCC1-6E3A7F155288}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Week2.MobileAppService", "Week2\Week2.MobileAppService\Week2.MobileAppService.csproj", "{E3DAFF1B-AFAF-461D-BCC1-6E3A7F155288}"
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Week2", "Week2\Week2\Week2.shproj", "{10D2E5E2-51BF-4F77-9C2F-AB80354A3A58}"
 EndProject

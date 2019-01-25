@@ -8,7 +8,7 @@ using Week2.Models;
 
 namespace Week2.Services
 {
-    public class AzureDataStore : IDataStore<Item>
+    public class AzureDataStore : IDataStore
     {
         HttpClient client;
         IEnumerable<Item> items;

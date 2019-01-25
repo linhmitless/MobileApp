@@ -139,6 +139,21 @@
   <ItemGroup>
     <BundleResource Include="Resources\bunny.jpg" />
   </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\Carrot.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\dropletfinal.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\Rope_icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\Tree_trunk_bark_boughs-512.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\weed2.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\Week2\Week2.projitems" Label="Shared" />
 </Project>
