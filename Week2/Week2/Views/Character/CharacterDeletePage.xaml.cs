@@ -8,17 +8,17 @@ using Week2.ViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace Week2.Views.Items
+namespace Week2.Views.Character
 {
-	[XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class ItemDeletePage : ContentPage
+    [XamlCompilation(XamlCompilationOptions.Compile)]
+    public partial class CharacterDeletePage : ContentPage
     {
         // ReSharper disable once NotAccessedField.Local
-        private ItemDetailViewModel viewModel;
+        private CharacterDetailViewModel viewModel;
 
-        public Item Data { get; set; }
+        public Week2.Models.Character Data { get; set; }
 
-        public ItemDeletePage(ItemDetailViewModel sentViewModel)
+        public CharacterDeletePage(CharacterDetailViewModel sentViewModel)
         {
             // Save off the item
             Data = sentViewModel.Data;

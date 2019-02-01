@@ -57,6 +57,7 @@
                                        LineBreakMode="WordWrap"
                                        Style="{DynamicResource ListItemDetailTextStyle}"
                                        FontSize="12" />
+                                    
                                 </StackLayout>
 
                             </StackLayout>

@@ -25,7 +25,7 @@ namespace Week2.Controllers
         }
 
         // Return the Default Image URI for the Local Image for an Item.
-        public static string DefaultImageURI = "Carrot.png";
+        public static string DefaultImageURI = "https://i.imgur.com/gkCDnJG.png";
 
     }
 }

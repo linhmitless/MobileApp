@@ -26,7 +26,7 @@ namespace Week2.Services
         }
 
         private List<Item> _itemDataset = new List<Item>();
-        //private List<Character> _characterDataset = new List<Character>();
+        private List<Character> _CharacterDataset = new List<Character>();
         //private List<Monster> _monsterDataset = new List<Monster>();
         //private List<Score> _scoreDataset = new List<Score>();
 
@@ -57,14 +57,25 @@ namespace Week2.Services
             _itemDataset.Add(new Item("Fresh Carrot", s2,
                 "https://i.imgur.com/AyjmZVS.png", 15, AttributeEnum.CurrentHealth));
 
-            _itemDataset.Add(new Item("Tree Bark", s3,
-                "https://i.imgur.com/9clfmu9.png", 2, AttributeEnum.Defense));
+            _itemDataset.Add(new Item("Wet Grass", s1,
+                "https://i.imgur.com/OyYLK0g.png", 4, AttributeEnum.CurrentHealth));
             _itemDataset.Add(new Item("Rope of Vengeance", s4,
                 "https://i.imgur.com/9536yGE.png", 3, AttributeEnum.Strength));
             _itemDataset.Add(new Item("Magical Dew", s5,
                 "https://i.imgur.com/8XCRPIG.png", 2, AttributeEnum.Wisdom));
 
-            // Implement Characters
+            // Implement Character
+
+            _CharacterDataset.Add(new Character("Hazel", "Hazel-rah", 5,2, 1000,
+                "https://i.imgur.com/0rggUZ7.png", true));
+            _CharacterDataset.Add(new Character("BigWit", "Thlayli", 6, 3, 1010,
+                "https://i.imgur.com/0uaVKml.jpg", true));
+            _CharacterDataset.Add(new Character("Clover", "The hutch rabbit", 5, 2, 1000,
+                "https://i.imgur.com/qOzdUBt.png", true));
+            _CharacterDataset.Add(new Character("Hyzenthlay", "The fearless female leader", 6, 3, 1010,
+                "https://i.imgur.com/kIH4UtV.jpg", true));
+            //_CharacterDataset.Add(new Character("Doug", "Unknown", 20, 3, 10000,
+              //  "https://i.imgur.com/gkCDnJG.png", true));
 
             // Implement Monsters
 
@@ -89,7 +100,7 @@ namespace Week2.Services
             // Implement Monsters
 
             // Implement Characters 
-
+            CharactersViewModel.Instance.SetNeedsRefresh(true);
             // Implement Scores
         }
 
@@ -173,35 +184,64 @@ namespace Week2.Services
 
         #region Character
         //// Character
-        //public async Task<bool> AddAsync_Character(Character data)
-        //{
-        //    // Implement
-        //    return false;
-        //}
+        public async Task<bool> AddAsync_Character(Character data)
+        {
+            _CharacterDataset.Add(data);
 
-        //public async Task<bool> UpdateAsync_Character(Character data)
-        //{
-        //    // Implement
-        //    return false;
-        //}
+            return await Task.FromResult(true);
+        }
 
-        //public async Task<bool> DeleteAsync_Character(Character data)
-        //{
-        //    // Implement
-        //    return false;
-        //}
+        public async Task<bool> UpdateAsync_Character(Character data)
+        {
+            var myData = _CharacterDataset.FirstOrDefault(arg => arg.ID == data.ID);
+            if (myData == null)
+            {
+                return false;
+            }
 
-        //public async Task<Character> GetAsync_Character(string id)
-        //{
-        //    // Implement
-        //    return null;
-        //}
+            myData.Update(data);
 
-        //public async Task<IEnumerable<Character>> GetAllAsync_Character(bool forceRefresh = false)
-        //{
-        //    // Implement
-        //    return null;
-        //}
+            return await Task.FromResult(true);
+        }
+
+        public async Task<bool> DeleteAsync_Character(Character data)
+        {
+            var myData = _CharacterDataset.FirstOrDefault(arg => arg.ID == data.ID);
+            _CharacterDataset.Remove(myData);
+
+            return await Task.FromResult(true);
+        }
+
+        public async Task<Character> GetAsync_Character(string id)
+        {
+            return await Task.FromResult(_CharacterDataset.FirstOrDefault(s => s.ID == id));
+        }
+
+        public async Task<IEnumerable<Character>> GetAllAsync_Character(bool forceRefresh = false)
+        {
+            return await Task.FromResult(_CharacterDataset);
+        }
+        public async Task<bool> InsertUpdateAsync_Character(Character data)
+        {
+
+            // Check to see if the Character exist
+            var oldData = await GetAsync_Character(data.ID);
+            if (oldData == null)
+            {
+                _CharacterDataset.Add(data);
+                return true;
+            }
+
+            // Compare it, if different update in the DB
+            var UpdateResult = await UpdateAsync_Character(data);
+            if (UpdateResult)
+            {
+                await AddAsync_Character(data);
+                return true;
+            }
+
+            return false;
+        }
 
         #endregion Character
 

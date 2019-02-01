@@ -1,72 +1,72 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Threading.Tasks;
 
 using Xamarin.Forms;
-
 using Week2.Models;
 using Week2.Views;
-using Week2.ViewModels;
 using System.Linq;
-using Week2.Views.Items;
+using Week2.Views.Character;
+using System;
 
 namespace Week2.ViewModels
 {
-    public class ItemsViewModel : BaseViewModel
+    public class CharactersViewModel : BaseViewModel
     {
-        private static ItemsViewModel instance;
+        // Make this a singleton so it only exist one time because holds all the data records in memory
+        private static CharactersViewModel _instance;
 
-        public static ItemsViewModel Instance
+        public static CharactersViewModel Instance
         {
             get
             {
-                if (instance == null)
+                if (_instance == null)
                 {
-                    instance = new ItemsViewModel();
+                    _instance = new CharactersViewModel();
                 }
-                return instance;
+                return _instance;
             }
         }
 
-        public ObservableCollection<Item> Dataset { get; set; }
+        public ObservableCollection<Character> Dataset { get; set; }
         public Command LoadDataCommand { get; set; }
 
-        private bool needsRefresh;
+        private bool _needsRefresh;
 
-        public ItemsViewModel()
+        public CharactersViewModel()
         {
 
-            Title = "Item List";
-            Dataset = new ObservableCollection<Item>();
+            Title = "Character List";
+            Dataset = new ObservableCollection<Character>();
             LoadDataCommand = new Command(async () => await ExecuteLoadDataCommand());
 
-        #region Messages
-            MessagingCenter.Subscribe<ItemDeletePage, Item>(this, "DeleteData", async (obj, data) =>
+            #region Messages
+            MessagingCenter.Subscribe<CharacterDeletePage, Character>(this, "DeleteData", async (obj, data) =>
             {
                 await DeleteAsync(data);
             });
 
-            MessagingCenter.Subscribe<NewItemPage, Item>(this, "AddData", async (obj, data) =>
+            MessagingCenter.Subscribe<NewCharacterPage, Character>(this, "AddData", async (obj, data) =>
             {
                 await AddAsync(data);
             });
 
-            MessagingCenter.Subscribe<ItemEditPage, Item>(this, "EditData", async (obj, data) =>
+            MessagingCenter.Subscribe<Week2.Views.CharacterEditPage, Character>(this, "EditData", async (obj, data) =>
             {
                 await UpdateAsync(data);
-                });
+            });
 
             #endregion Messages
+
         }
-        #region Refresh
+
         // Return True if a refresh is needed
         // It sets the refresh flag to false
         public bool NeedsRefresh()
         {
-            if (needsRefresh)
+            if (_needsRefresh)
             {
-                needsRefresh = false;
+                _needsRefresh = false;
                 return true;
             }
 
@@ -76,7 +76,7 @@ namespace Week2.ViewModels
         // Sets the need to refresh
         public void SetNeedsRefresh(bool value)
         {
-            needsRefresh = value;
+            _needsRefresh = value;
         }
 
         private async Task ExecuteLoadDataCommand()
@@ -89,14 +89,13 @@ namespace Week2.ViewModels
             try
             {
                 Dataset.Clear();
-                var dataset = await DataStore.GetAllAsync_Item(true);
+                var dataset = await DataStore.GetAllAsync_Character(true);
 
                 // Example of how to sort the database output using a linq query.
                 //Sort the list
                 dataset = dataset
                     .OrderBy(a => a.Name)
                     .ThenBy(a => a.Attribute)
-                    .ThenByDescending(a => a.Value)
                     .ToList();
 
                 // Then load the data structure
@@ -115,6 +114,7 @@ namespace Week2.ViewModels
             {
                 IsBusy = false;
             }
+            
         }
 
         public void ForceDataRefresh()
@@ -124,27 +124,25 @@ namespace Week2.ViewModels
             LoadDataCommand.Execute(null);
         }
 
-        #endregion Refresh
-
         #region DataOperations
 
-        public async Task<bool> AddAsync(Item data)
+        public async Task<bool> AddAsync(Character data)
         {
             Dataset.Add(data);
-            var myReturn = await DataStore.AddAsync_Item(data);
+            var myReturn = await DataStore.AddAsync_Character(data);
             return myReturn;
         }
 
-        public async Task<bool> DeleteAsync(Item data)
+        public async Task<bool> DeleteAsync(Character data)
         {
             Dataset.Remove(data);
-            var myReturn = await DataStore.DeleteAsync_Item(data);
+            var myReturn = await DataStore.DeleteAsync_Character(data);
             return myReturn;
         }
 
-        public async Task<bool> UpdateAsync(Item data)
+        public async Task<bool> UpdateAsync(Character data)
         {
-            // Find the Item, then update it
+            // Find the Character, then update it
             var myData = Dataset.FirstOrDefault(arg => arg.ID == data.ID);
             if (myData == null)
             {
@@ -152,37 +150,36 @@ namespace Week2.ViewModels
             }
 
             myData.Update(data);
-            await DataStore.UpdateAsync_Item(myData);
+            await DataStore.UpdateAsync_Character(myData);
 
-            needsRefresh = true;
+            _needsRefresh = true;
 
             return true;
         }
 
         // Call to database to ensure most recent
-        public async Task<Item> GetAsync(string id)
+        public async Task<Character> GetAsync(string id)
         {
-            var myData = await DataStore.GetAsync_Item(id);
+            var myData = await DataStore.GetAsync_Character(id);
             return myData;
         }
 
         // Having this at the ViewModel, because it has the DataStore
         // That allows the feature to work for both SQL and the MOCk datastores...
-        public async Task<bool> InsertUpdateAsync(Item data)
+        public async Task<bool> InsertUpdateAsync(Character data)
         {
-            var myReturn = await DataStore.InsertUpdateAsync_Item(data);
+            var myReturn = await DataStore.InsertUpdateAsync_Character(data);
             return myReturn;
         }
-
-        public Item CheckIfItemExists(Item data)
+        public Character CheckIfCharacterExists(Character data)
         {
-            // This will walk the items and find if there is one that is the same.
-            // If so, it returns the item...
+            // This will walk the Characters and find if there is one that is the same.
+            // If so, it returns the Character...
 
             var myList = Dataset.Where(a =>
                                         a.Attribute == data.Attribute &&
-                                        a.Name == data.Name &&
-                                        a.Value == data.Value)
+                                        a.Name == data.Name
+                                        )
                                         .FirstOrDefault();
 
             if (myList == null)
@@ -192,38 +189,9 @@ namespace Week2.ViewModels
             }
 
             return myList;
+
         }
 
-        #endregion DataOperations
-
-        #region ItemConversion
-
-        // Takes an item string ID and looks it up and returns the item
-        // This is because the Items on a character are stores as strings of the GUID.  That way it can be saved to the DB.
-        public Item GetItem(string ItemID)
-        {
-            if (string.IsNullOrEmpty(ItemID))
-            {
-                return null;
-            }
-
-            Item myData = DataStore.GetAsync_Item(ItemID).GetAwaiter().GetResult();
-            if (myData == null)
-            {
-                return null;
-            }
-
-            return myData;
-        }
-
-        #endregion ItemConversion
-
-        // Return a random item from the list of items...
-        public string ChooseRandomItemString(AttributeEnum attribute)
-        {
-            // Implement 
-
-            return null;
-        }
     }
+    #endregion Data Operations
 }
