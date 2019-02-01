@@ -17,12 +17,10 @@ namespace Week2
         {
             InitializeComponent();
 
-            if (UseMockDataStore)
-                DependencyService.Register<MockDataStore>();
-            else
-                DependencyService.Register<AzureDataStore>();
-
             MainPage = new MainPage();
+
+            // Load The Mock Datastore by default
+            Week2.Services.MasterDataStore.ToggleDataStore(Models.DataStoreEnum.Mock);
         }
 
         protected override void OnStart()
@@ -39,5 +37,20 @@ namespace Week2
         {
             // Handle when your app resumes
         }
+
+
+        //static SQLiteAsyncConnection _database;
+
+        //public static SQLiteAsyncConnection Database
+        //{
+        //    get
+        //    {
+        //        if (_database == null)
+        //        {
+        //            _database = new SQLiteAsyncConnection(DependencyService.Get<IFileHelper>().GetLocalFilePath("CrawlDatabaseKoenig1.db3"));
+        //        }
+        //        return _database;
+        //    }
+        //}
     }
 }
