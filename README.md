@@ -1,4 +1,1 @@
-"# MobileApp" 
-"# MobileApp" 
-"# MobileApp" 
-"# MobileApp" 
+Each branch signifies a commit to the project. 
