@@ -5,13 +5,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+// This program tests the RollDice method 
+// inside GameEngine\HelperEngine.cs class
 namespace UnitTests.GameEngine
 {
     [TestFixture]
     public class HelperEngineUnitTests
     {
         private const int ERROR_RESULT = 0;
-        private const int FORCED_VALUE = 5;
         [Test]
         // This function ensures that Roll 1 and Dice 10 
         // are acceptable parameters for method RollDice
@@ -26,11 +27,6 @@ namespace UnitTests.GameEngine
             var Actual = Crawl.GameEngine.HelperEngine.RollDice(Roll, Dice);
 
             // Assert
-            //Assert.AreEqual(Expected, Actual, TestContext.CurrentContext.Test.Name);
-
-            // Roll 1 Dice 10 should pass
-            //Assert.Pass(TestContext.CurrentContext.Test.Name);
-
             Assert.NotZero(Actual, TestContext.CurrentContext.Test.Name);
         }
 
@@ -109,16 +105,20 @@ namespace UnitTests.GameEngine
             var Dice = 10;
             var Fixed = 5;
             // Setting the states needed for this unit test 
+
+            var CurrentValue = Crawl.Models.GameGlobals.ForcedRandomValue;
             Crawl.Models.GameGlobals.ForcedRandomValue = Fixed;
             Crawl.Models.GameGlobals.ForceRollsToNotRandom = true;
 
             var Expected = Fixed * Roll;
             var Actual = Crawl.GameEngine.HelperEngine.RollDice(Roll, Dice);
 
+            // Assert
             Assert.AreEqual(Expected, Actual, TestContext.CurrentContext.Test.Name);
 
             // Reverting the state change back to before test
             Crawl.Models.GameGlobals.ForceRollsToNotRandom = false;
+            Crawl.Models.GameGlobals.ForcedRandomValue = CurrentValue;
         }
 
         [Test]
@@ -131,19 +131,21 @@ namespace UnitTests.GameEngine
             var Roll = 3;
             var Dice = 10;
             var Fixed = 5;
-
-            // Setting the states needed for the unit test
+            
+            // Setting the states needed for this unit test 
+            var CurrentValue = Crawl.Models.GameGlobals.ForcedRandomValue;
             Crawl.Models.GameGlobals.ForcedRandomValue = Fixed;
             Crawl.Models.GameGlobals.ForceRollsToNotRandom = true;
 
             var Expected = Fixed * Roll;
-            
             var Actual = Crawl.GameEngine.HelperEngine.RollDice(Roll, Dice);
-            
+
+            // Assert
             Assert.AreEqual(Expected, Actual, TestContext.CurrentContext.Test.Name);
 
             // Reverting the state change back to before test
             Crawl.Models.GameGlobals.ForceRollsToNotRandom = false;
+            Crawl.Models.GameGlobals.ForcedRandomValue = CurrentValue;
         }
     }
 }
