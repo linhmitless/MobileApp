@@ -32,7 +32,7 @@ namespace Crawl.GameEngine
             {
                 return 0;
             }
-
+            
             if (GameGlobals.ForceRollsToNotRandom)
             {
                 return GameGlobals.ForcedRandomValue * rolls;

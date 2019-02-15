@@ -11,6 +11,7 @@ namespace UnitTests.GameEngine
     public class HelperEngineUnitTests
     {
         private const int ERROR_RESULT = 0;
+        private const int FORCED_VALUE = 5;
         [Test]
         // This function ensures that Roll 1 and Dice 10 
         // are acceptable parameters for method RollDice
@@ -66,7 +67,7 @@ namespace UnitTests.GameEngine
             var Dice = 10;
             var Actual = Crawl.GameEngine.HelperEngine.RollDice(Roll, Dice);
             var Expected = ERROR_RESULT;
-            
+
             Assert.AreEqual(Expected, Actual, TestContext.CurrentContext.Test.Name);
         }
         [Test]
@@ -97,8 +98,52 @@ namespace UnitTests.GameEngine
 
             Assert.AreEqual(Expected, Actual, TestContext.CurrentContext.Test.Name);
         }
+        [Test]
+        // This function test Forced non-random RollDice
+        // No matter what parameters Roll and Dice is, 
+        // It should return the ForcedRandomValue*Roll
+        // In this case, it is 1 (Roll) *5 (ForcedRandomValue) = 5 (Expected)
+        public void RollDice_Roll_1_Dice_10_Fixed_5_Should_Return_5()
+        {
+            var Roll = 1;
+            var Dice = 10;
+            var Fixed = 5;
+            // Setting the states needed for this unit test 
+            Crawl.Models.GameGlobals.ForcedRandomValue = Fixed;
+            Crawl.Models.GameGlobals.ForceRollsToNotRandom = true;
 
+            var Expected = Fixed * Roll;
+            var Actual = Crawl.GameEngine.HelperEngine.RollDice(Roll, Dice);
 
+            Assert.AreEqual(Expected, Actual, TestContext.CurrentContext.Test.Name);
 
+            // Reverting the state change back to before test
+            Crawl.Models.GameGlobals.ForceRollsToNotRandom = false;
+        }
+
+        [Test]
+        // This function test Forced non-random RollDice
+        // No matter what parameters Roll and Dice is, 
+        // It should return the ForcedRandomValue*Roll
+        // In this case, it is 3 (Roll) *5 (ForcedRandomValue) = 15 (Expected)
+        public void RollDice_Roll_3_Dice_10_Fixed_5_Should_Return_15()
+        {
+            var Roll = 3;
+            var Dice = 10;
+            var Fixed = 5;
+
+            // Setting the states needed for the unit test
+            Crawl.Models.GameGlobals.ForcedRandomValue = Fixed;
+            Crawl.Models.GameGlobals.ForceRollsToNotRandom = true;
+
+            var Expected = Fixed * Roll;
+            
+            var Actual = Crawl.GameEngine.HelperEngine.RollDice(Roll, Dice);
+            
+            Assert.AreEqual(Expected, Actual, TestContext.CurrentContext.Test.Name);
+
+            // Reverting the state change back to before test
+            Crawl.Models.GameGlobals.ForceRollsToNotRandom = false;
+        }
     }
 }
