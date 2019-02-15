@@ -44,6 +44,10 @@ namespace UnitTests.GameEngine
             Assert.NotZero(Actual, TestContext.CurrentContext.Test.Name);
         }
         [Test]
+
+        // This function ensures that Roll 0 and Dice 10 
+        // are not acceptable parameters for method RollDice
+        // Result should be 0 because Roll can't be < 1
         public void RollDice_Roll_0_Dice_10_Should_Fail()
         {
             var Roll = 0;
@@ -53,6 +57,9 @@ namespace UnitTests.GameEngine
             Assert.AreEqual(Expected, Actual, TestContext.CurrentContext.Test.Name);
         }
         [Test]
+        // This function ensures that Roll -1 and Dice 10 
+        // are not acceptable parameters for method RollDice
+        // Result should be 0 because Roll can't be < 1
         public void RollDice_Roll_Neg1_Dice_10_Should_Fail()
         {
             var Roll = -1;
@@ -63,6 +70,10 @@ namespace UnitTests.GameEngine
             Assert.AreEqual(Expected, Actual, TestContext.CurrentContext.Test.Name);
         }
         [Test]
+
+        // This function ensures that Roll 1 and Dice -1 
+        // are not acceptable parameters for method RollDice
+        // Result should be 0 because Dice can't be <1
         public void RollDice_Roll_1_Dice_Neg1_Should_Fail()
         {
             var Roll = 1;
@@ -74,6 +85,9 @@ namespace UnitTests.GameEngine
         }
 
         [Test]
+        // This function ensures that Roll 1 and Dice 0
+        // are not acceptable parameters for method RollDice
+        // Result should be 0 because Dice can't be <1
         public void RollDice_Roll_1_Dice_0_Should_Fail()
         {
             var Roll = 1;
