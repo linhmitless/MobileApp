@@ -30,6 +30,8 @@ namespace Crawl.Controllers
         public static string DefaultImageURI = "Item.png";
 
         #region ServerCalls
+
+        // This function allows us to get items using Server API calls 
         public async Task<List<Item>> GetItemsFromServer(int parameter = 100)
         {
             // parameter is the item group to request.  1, 2, 3, 100
@@ -167,10 +169,18 @@ namespace Crawl.Controllers
 
             try
             {
+                myData.Name = JsonHelper.GetJsonString(json, "Name");
                 myData.Guid = JsonHelper.GetJsonString(json, "Guid");
                 myData.Id = myData.Guid;    // Set to be the same as Guid, does not come down from server, but needed for DB
 
-                // Look in JsonHelper for more types...
+                myData.Description = JsonHelper.GetJsonString(json, "Description");
+                myData.ImageURI = JsonHelper.GetJsonString(json, "ImageURI");
+
+                myData.Value = JsonHelper.GetJsonInteger(json, "Value");
+
+                myData.Location = (ItemLocationEnum)JsonHelper.GetJsonInteger(json, "Location");
+                myData.Attribute = (AttributeEnum)JsonHelper.GetJsonInteger(json, "Attribute");
+.
 
             }
 
